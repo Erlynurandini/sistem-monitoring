@@ -727,76 +727,83 @@ export default function DashboardGuru({ user, onLogout }) {
               </div>
 
               {/* Tabel Presensi */}
-              <div className="space-y-3">
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider">Rekapitulasi Kehadiran & Foto Bukti Presensi</h4>
-                <div className="overflow-x-auto rounded-xl border border-slate-800 max-h-56 overflow-y-auto">
-                  <table className="w-full text-left text-xs text-slate-300">
-                    <thead className="bg-[#0f1523] text-slate-400 uppercase font-semibold border-b border-slate-800 sticky top-0">
-                      <tr>
-                        <th className="px-3.5 py-3">TANGGAL</th>
-                        <th className="px-3.5 py-3">JAM MASUK</th>
-                        <th className="px-3.5 py-3">STATUS</th>
-                        <th className="px-3.5 py-3 text-center">FOTO BUKTI</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-800/60">
-                      {presensiList.filter(p => {
-                        const pNisn = String(p.nisn || p.student_nisn || '').trim();
-                        const pId = String(p.user_id || p.student_id || p.siswa_id || '').trim();
-                        const sNisn = String(selectedSiswaDetail.nisn || '').trim();
-                        const sId = String(selectedSiswaDetail.id || '').trim();
-                        return (sNisn && pNisn === sNisn) || (sId && pId === sId);
-                      }).length === 0 ? (
-                        <tr>
-                          <td colSpan="4" className="text-center py-6 text-slate-500 italic">
-                            Belum ada data presensi kehadiran untuk siswa ini.
-                          </td>
-                        </tr>
-                      ) : (
-                        presensiList
-                          .filter(p => {
-                            const pNisn = String(p.nisn || p.student_nisn || '').trim();
-                            const pId = String(p.user_id || p.student_id || p.siswa_id || '').trim();
-                            const sNisn = String(selectedSiswaDetail.nisn || '').trim();
-                            const sId = String(selectedSiswaDetail.id || '').trim();
-                            return (sNisn && pNisn === sNisn) || (sId && pId === sId);
-                          })
-                          .map((p, i) => (
-                            <tr key={i} className="hover:bg-slate-800/30">
-                              <td className="px-3.5 py-3 font-medium text-white">{p.tanggal}</td>
-                              <td className="px-3.5 py-3">{p.jam_masuk || '-'}</td>
-                              <td className="px-3.5 py-3">
-                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                                  {p.status || 'Hadir'}
-                                </span>
-                              </td>
-                              <td className="px-3.5 py-3 text-center">
-                                {p.foto ? (
-                                  <div className="flex items-center justify-center space-x-2">
-                                    <img 
-                                      src={p.foto} 
-                                      alt="Bukti Presensi" 
-                                      className="w-10 h-10 object-cover rounded-lg border border-slate-700 cursor-pointer hover:scale-105 transition"
-                                      onClick={() => setSelectedFoto(p.foto)}
-                                    />
-                                    <button
-                                      onClick={() => setSelectedFoto(p.foto)}
-                                      className="text-blue-400 hover:underline text-[11px]"
-                                    >
-                                      Perbesar
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <span className="text-slate-500 italic text-[11px]">Tidak ada foto</span>
-                                )}
-                              </td>
-                            </tr>
-                          ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+<div className="space-y-3">
+  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Rekapitulasi Kehadiran & Foto Bukti Presensi</h4>
+  <div className="overflow-x-auto rounded-xl border border-slate-800 max-h-56 overflow-y-auto">
+    <table className="w-full text-left text-xs text-slate-300">
+      <thead className="bg-[#0f1523] text-slate-400 uppercase font-semibold border-b border-slate-800 sticky top-0">
+        <tr>
+          <th className="px-3.5 py-3">TANGGAL</th>
+          <th className="px-3.5 py-3">JAM MASUK</th>
+          <th className="px-3.5 py-3">STATUS</th>
+          <th className="px-3.5 py-3 text-center">FOTO BUKTI</th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-slate-800/60">
+        {presensiList.filter(p => {
+          // Menangkap segala kemungkinan nama field dari database/API Laravel
+          const pNisn = String(p.nisn || p.student_nisn || p.student?.nisn || p.siswa?.nisn || '').trim();
+          const pId = String(p.user_id || p.student_id || p.siswa_id || p.student?.id || p.siswa?.id || '').trim();
+          
+          const sNisn = String(selectedSiswaDetail.nisn || '').trim();
+          const sId = String(selectedSiswaDetail.id || '').trim();
+
+          // Jika data presensi tidak memiliki NISN / ID sama sekali dari backend, 
+          // pastikan backend Laravel Anda mengirimkan relasi student_id / nisn pada tabel presensi.
+          return (sNisn && pNisn === sNisn) || (sId && pId === sId);
+        }).length === 0 ? (
+          <tr>
+            <td colSpan="4" className="text-center py-6 text-slate-500 italic">
+              Belum ada data presensi kehadiran untuk siswa ini.
+            </td>
+          </tr>
+        ) : (
+          presensiList
+            .filter(p => {
+              const pNisn = String(p.nisn || p.student_nisn || p.student?.nisn || p.siswa?.nisn || '').trim();
+              const pId = String(p.user_id || p.student_id || p.siswa_id || p.student?.id || p.siswa?.id || '').trim();
+              
+              const sNisn = String(selectedSiswaDetail.nisn || '').trim();
+              const sId = String(selectedSiswaDetail.id || '').trim();
+
+              return (sNisn && pNisn === sNisn) || (sId && pId === sId);
+            })
+            .map((p, i) => (
+              <tr key={i} className="hover:bg-slate-800/30">
+                <td className="px-3.5 py-3 font-medium text-white">{p.tanggal}</td>
+                <td className="px-3.5 py-3">{p.jam_masuk || p.jam || '-'}</td>
+                <td className="px-3.5 py-3">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    {p.status || 'Hadir'}
+                  </span>
+                </td>
+                <td className="px-3.5 py-3 text-center">
+                  {p.foto || p.photo_url ? (
+                    <div className="flex items-center justify-center space-x-2">
+                      <img 
+                        src={p.foto || p.photo_url} 
+                        alt="Bukti Presensi" 
+                        className="w-10 h-10 object-cover rounded-lg border border-slate-700 cursor-pointer hover:scale-105 transition"
+                        onClick={() => setSelectedFoto(p.foto || p.photo_url)}
+                      />
+                      <button
+                        onClick={() => setSelectedFoto(p.foto || p.photo_url)}
+                        className="text-blue-400 hover:underline text-[11px]"
+                      >
+                        Perbesar
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="text-slate-500 italic text-[11px]">Tidak ada foto</span>
+                  )}
+                </td>
+              </tr>
+            ))
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
 
               <div className="flex justify-end space-x-3 pt-4 border-t border-slate-800">
                 <button
@@ -895,7 +902,9 @@ export default function DashboardGuru({ user, onLogout }) {
                       const pId = String(p.user_id || p.student_id || p.siswa_id || '').trim();
                       const sNisn = String(selectedSiswaDetail.nisn || '').trim();
                       const sId = String(selectedSiswaDetail.id || '').trim();
-                      return (sNisn && pNisn === sNisn) || (sId && sId === sId);
+                      
+                      // PERBAIKANNYA DI SINI (Ubah sId === sId jadi pId === sId):
+                      return (sNisn && pNisn === sNisn) || (sId && pId === sId);
                     }).map((p, i) => (
                       <tr key={i} className="border-b border-black">
                         <td className="border border-black p-1.5 text-center">{i + 1}</td>
