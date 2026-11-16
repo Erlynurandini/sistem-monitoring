@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Presensi;
+use Carbon\Carbon;
 use Exception;
 
 class PresensiController extends Controller
 {
-    // Method index untuk mengambil seluruh data presensi (dibutuhkan oleh Dashboard Guru)
+    // Method index untuk mengambil seluruh data presensi
     public function index()
     {
         try {
@@ -25,16 +26,26 @@ class PresensiController extends Controller
         }
     }
 
+    // Method store untuk menyimpan presensi harian siswa
     public function store(Request $request)
     {
-        try { // Perbaikan: Menambahkan kurung kurawal buka di sini
-            $tanggal = $request->tanggal ?? date('Y-m-d');
+        try {
+            $tanggal = $request->tanggal ?? Carbon::today()->toDateString();
+            
+            // Ambil nisn langsung dari request yang dikirim frontend
             $nisn = $request->nisn;
 
-            // 1. Cek apakah siswa sudah melakukan presensi pada tanggal hari ini
+            if (!$nisn) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'NISN siswa tidak boleh kosong dari form!'
+                ], 400);
+            }
+
+            // 1. Cek apakah NISN ini sudah melakukan presensi pada tanggal hari ini
             $existingPresensi = Presensi::where('nisn', $nisn)
-                                       ->where('tanggal', $tanggal)
-                                       ->first();
+                                         ->where('tanggal', $tanggal)
+                                         ->first();
 
             if ($existingPresensi) {
                 return response()->json([
@@ -44,7 +55,7 @@ class PresensiController extends Controller
             }
 
             $path = null;
-            // 2. Jika ada file surat sakit/izin yang diunggah (dokumen/PDF/foto dokumen)
+            // 2. Jika ada file bukti surat sakit/izin yang diunggah
             if ($request->hasFile('file_bukti')) {
                 $file = $request->file('file_bukti');
                 $filename = time() . '_' . $file->getClientOriginalName();
@@ -52,14 +63,14 @@ class PresensiController extends Controller
                 $path = 'uploads/presensi/' . $filename;
             }
 
-            // 3. Simpan data presensi baru dengan jam masuk aktual & foto kamera
+            // 3. Simpan data presensi baru ke database sesuai kolom phpMyAdmin
             $presensi = Presensi::create([
                 'nisn' => $nisn,
                 'tanggal' => $tanggal,
-                'jam_masuk' => date('H:i'), // Mengambil jam & menit aktual saat presensi dikirim
+                'jam_masuk' => date('H:i'),
                 'status' => $request->status,
                 'lokasi_gps' => $request->lokasi_gps,
-                'foto' => $request->input('foto'), // Menerima base64 string dari kamera siswa
+                'foto' => $request->input('foto'),
                 'file_bukti' => $path,
                 'keterangan' => $request->keterangan
             ]);
@@ -69,8 +80,12 @@ class PresensiController extends Controller
                 'message' => 'Presensi berhasil disimpan ke database!',
                 'data' => $presensi
             ]);
+
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
