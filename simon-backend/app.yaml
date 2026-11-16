@@ -1,0 +1,5 @@
+kind: wasmer.io/App.v0
+name: simon-pkl
+owner: erlynurandini
+package: .
+app_id: da_2yGI9trUxjoz

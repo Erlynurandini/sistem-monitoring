@@ -1,0 +1,21 @@
+[app]
+name = "simon-pkl"
+package = "wasmer/php-apache"
+
+[env]
+APP_ENV = "production"
+APP_DEBUG = "false"
+APP_KEY = "base64:T7AKKrczib3KrZl8u/1Db3FwyhASLISUUQMd5oZXDUY="
+
+[build]
+command = """
+composer install --optimize-autoloader --no-dev
+npm install
+npm run build
+php artisan config:cache
+php artisan route:cache
+"""
+
+[http]
+port = 8080
+document_root = "public"
