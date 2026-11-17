@@ -9,6 +9,7 @@ use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\JadwalMonitoringController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\DudiController;
+use App\Http\Controllers\Api\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,7 @@ use App\Http\Controllers\DudiController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::post('/register', [RegisterController::class, 'register']);
 
 // 1. ROUTE SISWA
 Route::get('/siswa', [SiswaController::class, 'index']);
