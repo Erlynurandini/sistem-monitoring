@@ -18,8 +18,7 @@ class RegisterController extends Controller
                 'required',
                 'string',
                 'max:255',
-                // Contoh Validasi Kombinasi Kolom Kunci:
-                // Nama tidak boleh sama jika role-nya sama (sesuaikan kolom kuncinya jika perlu)
+                // Validasi kombinasi kolom kunci: Nama dan role tidak boleh sama persis
                 Rule::unique('users')->where(function ($query) use ($request) {
                     return $query->where('name', $request->name)
                                  ->where('role', $request->role);
@@ -39,7 +38,7 @@ class RegisterController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         } 
-
+        
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
