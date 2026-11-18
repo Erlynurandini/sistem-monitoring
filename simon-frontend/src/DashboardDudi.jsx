@@ -34,6 +34,9 @@ export default function DashboardDudi({ user, onLogout }) {
     catatan: ''
   });
 
+  // URL Backend Cloudflare Tunnel Anda
+  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+
   useEffect(() => {
     fetchSiswaBinaan();
     fetchJurnalDudi();
@@ -48,7 +51,7 @@ export default function DashboardDudi({ user, onLogout }) {
 
   const fetchSiswaBinaan = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/dudi/siswa', {
+      const response = await axios.get(`${API_BASE_URL}/api/dudi/siswa`, {
         params: { company: user?.company || user?.name },
         ...getAuthHeader()
       });
@@ -64,7 +67,7 @@ export default function DashboardDudi({ user, onLogout }) {
 
   const fetchJurnalDudi = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/dudi/jurnal', getAuthHeader());
+      const response = await axios.get(`${API_BASE_URL}/api/dudi/jurnal`, getAuthHeader());
       if (response.data.success) {
         setJurnalList(response.data.data);
       }
@@ -75,7 +78,7 @@ export default function DashboardDudi({ user, onLogout }) {
 
   const fetchPresensiDudi = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/dudi/presensi', getAuthHeader());
+      const response = await axios.get(`${API_BASE_URL}/api/dudi/presensi`, getAuthHeader());
       if (response.data.success) {
         setPresensiList(response.data.data);
       }
@@ -86,7 +89,7 @@ export default function DashboardDudi({ user, onLogout }) {
 
   const handleApproveJurnal = async (id) => {
     try {
-      await axios.post(`http://127.0.0.1:8000/api/dudi/journals/${id}/approve`, {}, getAuthHeader());
+      await axios.post(`${API_BASE_URL}/api/dudi/journals/${id}/approve`, {}, getAuthHeader());
       alert('Jurnal berhasil disetujui (Approved)!');
       fetchJurnalDudi();
     } catch (error) {
@@ -98,7 +101,7 @@ export default function DashboardDudi({ user, onLogout }) {
     const catatanRevisi = prompt('Masukkan catatan atau instruksi revisi untuk siswa:');
     if (!catatanRevisi) return;
     try {
-      await axios.post(`http://127.0.0.1:8000/api/dudi/journals/${id}/revise`, { catatan: catatanRevisi }, getAuthHeader());
+      await axios.post(`${API_BASE_URL}/api/dudi/journals/${id}/revise`, { catatan: catatanRevisi }, getAuthHeader());
       alert('Permintaan revisi berhasil dikirim ke siswa!');
       fetchJurnalDudi();
     } catch (error) {
@@ -113,25 +116,24 @@ export default function DashboardDudi({ user, onLogout }) {
       return;
     }
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/dudi/penilaian', nilaiForm, getAuthHeader());
+      const response = await axios.post(`${API_BASE_URL}/api/dudi/penilaian`, nilaiForm, getAuthHeader());
       if (response.data.success) {
         alert('Penilaian Akhir Siswa berhasil disimpan & dikirim!');
         setNilaiForm({ siswa_id: '', kedisiplinan: '', keterampilan: '', sikap: '', catatan: '' });
       }
     } catch (error) {
-      // Menampilkan pesan error asli dari backend Laravel
       const errorMsg = error.response?.data?.message || error.message;
       alert('Gagal menyimpan penilaian: ' + errorMsg);
     }
   };
 
-  // Helper terpusat untuk format URL foto agar aman (baik presensi maupun jurnal)
+  // Helper terpusat untuk format URL foto agar aman
   const getPhotoUrl = (fotoPath) => {
     if (!fotoPath) return null;
     const path = String(fotoPath).trim();
     if (path.startsWith('http') || path.startsWith('data:')) return path;
     const cleanPath = path.startsWith('/') ? path.substring(1) : path;
-    return `http://127.0.0.1:8000/${cleanPath}`;
+    return `${API_BASE_URL}/${cleanPath}`;
   };
 
   const menuItems = [
@@ -311,7 +313,6 @@ export default function DashboardDudi({ user, onLogout }) {
                             <td className="px-4 py-3">{jurnal.tanggal}</td>
                             <td className="px-4 py-3 max-w-xs truncate">{jurnal.kegiatan}</td>
                             
-                            {/* Kolom Foto Bukti Jurnal */}
                             <td className="px-4 py-3">
                               {jurnal.foto ? (
                                 <button
@@ -500,7 +501,7 @@ export default function DashboardDudi({ user, onLogout }) {
         </div>
       </main>
 
-      {/* MODAL POPUP PREVIEW FOTO (PRESENSI / JURNAL) */}
+      {/* MODAL POPUP PREVIEW FOTO */}
       {selectedFoto && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 max-w-sm w-full space-y-2.5 shadow-2xl animate-fadeIn">

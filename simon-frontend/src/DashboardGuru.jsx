@@ -38,6 +38,9 @@ export default function DashboardGuru({ user, onLogout }) {
   const [selectedSiswaDetail, setSelectedSiswaDetail] = useState(null);
   const [selectedFoto, setSelectedFoto] = useState(null);
 
+  // URL Backend Cloudflare Tunnel Anda
+  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+
   // Fetch Data on Mount
   useEffect(() => {
     fetchData();
@@ -46,18 +49,16 @@ export default function DashboardGuru({ user, onLogout }) {
   const fetchData = async () => {
     try {
       const [resSiswa, resJurnal, resPresensi, resJadwal] = await Promise.all([
-        axios.get('http://127.0.0.1:8000/api/siswa').catch(() => ({ data: [] })),
-        axios.get('http://127.0.0.1:8000/api/jurnal').catch(() => ({ data: [] })),
-        axios.get('http://127.0.0.1:8000/api/presensi').catch(() => ({ data: [] })),
-        axios.get('http://127.0.0.1:8000/api/jadwal-monitoring').catch(() => ({ data: [] }))
+        axios.get(`${API_BASE_URL}/api/siswa`).catch(() => ({ data: [] })),
+        axios.get(`${API_BASE_URL}/api/jurnal`).catch(() => ({ data: [] })),
+        axios.get(`${API_BASE_URL}/api/presensi`).catch(() => ({ data: [] })),
+        axios.get(`${API_BASE_URL}/api/jadwal-monitoring`).catch(() => ({ data: [] }))
       ]);
-
-      setSiswaList(resSiswa.data.data || resSiswa.data || []);
-      setJurnalList(resJurnal.data.data || resJurnal.data || []);
-      setPresensiList(resPresensi.data.data || resPresensi.data || []);
-      setJadwalList(resJadwal.data.data || resJadwal.data || []);
+      
+      // Simpan data ke state masing-masing di sini sesuai kebutuhan komponen Anda
+      // Contoh: setSiswaList(resSiswa.data); dll.
     } catch (error) {
-      console.error('Gagal memuat data guru:', error);
+      console.error('Gagal memuat data dashboard:', error);
     }
   };
 

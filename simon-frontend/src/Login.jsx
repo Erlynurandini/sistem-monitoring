@@ -7,13 +7,16 @@ export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateFo
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
+  // URL Backend Cloudflare Tunnel Anda
+  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     setLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/login', {
+      const response = await fetch(`${API_BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +65,7 @@ export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateFo
 
     } catch (error) {
       console.warn('Gagal terhubung ke API backend:', error);
-      setErrorMsg('Tidak dapat terhubung ke server backend Laravel. Pastikan php artisan serve menyala.');
+      setErrorMsg('Tidak dapat terhubung ke server backend Cloudflare. Pastikan server Laravel aktif.');
     } finally {
       setLoading(false);
     }
@@ -364,4 +367,4 @@ export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateFo
       </div>
     </div>
   );
-} 
+}

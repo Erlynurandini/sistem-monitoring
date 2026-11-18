@@ -10,6 +10,9 @@ export default function ResetPassword({ token, email, onBackToLogin }) {
   const [error, setError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // URL Backend Cloudflare Tunnel Anda
+  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -23,8 +26,7 @@ export default function ResetPassword({ token, email, onBackToLogin }) {
     }
 
     try {
-      // Sesuaikan URL backend Laravel kamu jika port-nya berbeda (misal 8000)
-      const response = await axios.post('http://127.0.0.1:8000/api/reset-password', {
+      const response = await axios.post(`${API_BASE_URL}/api/reset-password`, {
         token: token,
         email: email,
         password: password,

@@ -53,10 +53,13 @@ export default function StudentDashboard({ user, onLogout }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
+  // URL Backend Cloudflare Tunnel Anda
+  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+
   // Tarik data terbaru dari database saat komponen dimuat
   useEffect(() => {
     if (user?.email) {
-      axios.get('http://127.0.0.1:8000/api/siswa')
+      axios.get(`${API_BASE_URL}/api/siswa`)
         .then(res => {
           if (res.data.success) {
             const latestUser = res.data.data.find(s => s.email === user.email);
@@ -87,7 +90,7 @@ export default function StudentDashboard({ user, onLogout }) {
 
   const fetchJurnal = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/jurnal`, {
+      const response = await axios.get(`${API_BASE_URL}/api/jurnal`, {
         params: { nisn: nisnUser }
       });
       if (response.data.success) {
@@ -108,7 +111,7 @@ export default function StudentDashboard({ user, onLogout }) {
   // --- FUNGSI CEK PRESENSI HARI INI ---
   const fetchPresensi = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/presensi`, {
+      const response = await axios.get(`${API_BASE_URL}/api/presensi`, {
         params: { nisn: nisnUser }
       });
       if (response.data.success) {
@@ -200,7 +203,7 @@ export default function StudentDashboard({ user, onLogout }) {
         foto: formJurnal.foto
       };
 
-      const response = await axios.post('http://127.0.0.1:8000/api/jurnal', payload);
+      const response = await axios.post(`${API_BASE_URL}/api/jurnal`, payload);
       if (response.data.success) {
         alert('Jurnal harian berhasil dikirim!');
         setFormJurnal({ tanggal: '', kegiatan: '', foto: null });
@@ -223,7 +226,7 @@ export default function StudentDashboard({ user, onLogout }) {
   const handleDeleteJurnal = async (id) => {
     if (confirm('Yakin ingin menghapus catatan jurnal ini?')) {
       try {
-        await axios.delete(`http://127.0.0.1:8000/api/jurnal/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/jurnal/${id}`);
         setJurnalSubmitted(false);
         fetchJurnal();
       } catch (error) {
@@ -239,7 +242,7 @@ export default function StudentDashboard({ user, onLogout }) {
 
   const handleSimpanEdit = async (id) => {
     try {
-      const response = await axios.put(`http://127.0.0.1:8000/api/jurnal/${id}`, {
+      const response = await axios.put(`${API_BASE_URL}/api/jurnal/${id}`, {
         tanggal: formEdit.tanggal,
         kegiatan: formEdit.kegiatan,
         foto: formEdit.foto,
@@ -303,7 +306,7 @@ export default function StudentDashboard({ user, onLogout }) {
         foto: fotoKehadiran || null
       };
 
-      const response = await axios.post('http://127.0.0.1:8000/api/presensi', payload);
+      const response = await axios.post(`${API_BASE_URL}/api/presensi`, payload);
 
       if (response.data.success) {
         setSudahPresensi(true);
@@ -889,7 +892,7 @@ export default function StudentDashboard({ user, onLogout }) {
                 src={
                   selectedFotoJurnal.startsWith('data:') || selectedFotoJurnal.startsWith('http') 
                     ? selectedFotoJurnal 
-                    : `http://127.0.0.1:8000/${selectedFotoJurnal}`
+                    : `${API_BASE_URL}/${selectedFotoJurnal}`
                 } 
                 alt="Bukti Jurnal" 
                 className="w-full h-64 object-cover rounded-xl border border-slate-700 shadow-md" 

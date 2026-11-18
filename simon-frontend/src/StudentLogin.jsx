@@ -7,6 +7,9 @@ export default function StudentLogin({ onLoginSuccess }) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // URL Backend Cloudflare Tunnel Anda
+  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!nisn || !password) {
@@ -16,7 +19,7 @@ export default function StudentLogin({ onLoginSuccess }) {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/siswa/login', { nisn, password });
+      const response = await axios.post(`${API_BASE_URL}/api/siswa/login`, { nisn, password });
       if (response.data.success) {
         alert('Login berhasil!');
         onLoginSuccess(response.data.data); // Lempar data siswa ke komponen utama

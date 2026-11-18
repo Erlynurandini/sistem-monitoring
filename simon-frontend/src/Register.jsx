@@ -11,6 +11,9 @@ export default function Register({ onBackToLogin }) {
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // URL Backend Cloudflare Tunnel Anda
+  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -21,7 +24,7 @@ export default function Register({ onBackToLogin }) {
     setMessage('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/register', {
+      const response = await fetch(`${API_BASE_URL}/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,7 +48,7 @@ export default function Register({ onBackToLogin }) {
       }
     } catch (error) {
       setIsSuccess(false);
-      setMessage('Gagal terhubung ke server backend Laravel.');
+      setMessage('Gagal terhubung ke server backend Cloudflare.');
     } finally {
       setLoading(false);
     }
