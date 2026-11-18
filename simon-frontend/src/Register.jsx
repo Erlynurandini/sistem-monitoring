@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logoImg from './assets/logo.png';
 
 export default function Register({ onBackToLogin }) {
   const [formData, setFormData] = useState({
@@ -153,7 +152,7 @@ export default function Register({ onBackToLogin }) {
 
       <div className="login-card">
         <div className="login-header">
-          <img src={logoImg} alt="Logo SIMON PKL" className="main-logo-img" />
+          <img src="/logo.png" alt="Logo SIMON PKL" className="main-logo-img" />
           <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#111827', margin: '0 0 4px 0' }}>Daftar Akun Baru</h2>
           <p style={{ fontSize: '13px', color: '#6b7280', margin: 0 }}>Lengkapi data untuk mendaftar ke SIMON PKL</p>
         </div>
