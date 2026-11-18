@@ -364,4 +364,4 @@ export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateFo
       </div>
     </div>
   );
-}
+} 

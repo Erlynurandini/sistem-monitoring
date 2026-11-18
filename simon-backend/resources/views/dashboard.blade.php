@@ -95,7 +95,7 @@
                         Simpan Data
                     </button>
                 </form>
-            </div>
+            </div> 
 
             <!-- KOLOM KANAN: TABEL RINGKASAN AGREGAT DINAMIS (COUNT & SUM) -->
             <div class="bg-white p-6 rounded-lg shadow-md lg:col-span-2">
