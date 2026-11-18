@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logoImg from './assets/logo.png';
 
 export default function ForgotPassword({ onBackToLogin }) {
   const [email, setEmail] = useState('');
@@ -186,7 +185,7 @@ export default function ForgotPassword({ onBackToLogin }) {
 
       <div className="login-card">
         <div className="login-header">
-          <img src={logoImg} alt="Logo SIMON PKL" className="main-logo-img" />
+          <img src="/logo.png" alt="Logo SIMON PKL" className="main-logo-img" />
           <h2 className="login-title">Lupa Password</h2>
           <p className="login-subtitle">Masukkan email Anda untuk menerima tautan pemulihan</p>
         </div>

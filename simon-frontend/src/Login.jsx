@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logoImg from './assets/logo.png';
 
 export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateForgotPassword }) {
   const [email, setEmail] = useState('');
@@ -8,7 +7,7 @@ export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateFo
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     setLoading(true);
@@ -269,7 +268,7 @@ const handleSubmit = async (e) => {
         {/* Banner Kiri (Desktop) */}
         <div className="login-banner">
           <div className="banner-brand">
-            <img src={logoImg} alt="Logo SE DEV" className="brand-logo-img" />
+            <img src="/logo.png" alt="Logo SE DEV" className="brand-logo-img" />
             <span>SIMON PKL</span>
           </div>
 
@@ -290,7 +289,7 @@ const handleSubmit = async (e) => {
         {/* Form Kanan (Putih) */}
         <div className="login-form-container">
           <div className="login-header">
-            <img src={logoImg} alt="Logo SIMON PKL" className="main-logo-img" />
+            <img src="/logo.png" alt="Logo SIMON PKL" className="main-logo-img" />
             <h1 className="login-title">SIMON PKL</h1>
             <p className="login-subtitle">Silakan masuk ke akun Anda</p>
           </div>
