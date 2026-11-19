@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Lock, ArrowLeft, CheckCircle2 } from 'lucide-react';
-import axios from 'axios'; // Pastikan axios sudah terinstall, atau gunakan fetch
+import axios from 'axios';
 
 export default function ResetPassword({ token, email, onBackToLogin }) {
   const [password, setPassword] = useState('');
@@ -10,8 +10,8 @@ export default function ResetPassword({ token, email, onBackToLogin }) {
   const [error, setError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // URL Backend Cloudflare Tunnel Anda
-  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+  // URL Backend Cloudflare Tunnel Aktif
+  const API_BASE_URL = 'https://observer-aurora-powerseller-concerns.trycloudflare.com';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +47,7 @@ export default function ResetPassword({ token, email, onBackToLogin }) {
   return (
     <div className="min-h-screen bg-[#07090e] text-slate-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-[#111827] border border-slate-800 rounded-3xl p-8 shadow-2xl relative">
-        
+
         <div className="text-center mb-8">
           <div className="inline-flex p-3 bg-blue-600/10 text-blue-400 rounded-2xl mb-3">
             <Lock className="w-6 h-6" />

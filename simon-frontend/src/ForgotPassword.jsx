@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const API_BASE_URL = 'https://observer-aurora-powerseller-concerns.trycloudflare.com';
+
 export default function ForgotPassword({ onBackToLogin }) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -12,7 +14,7 @@ export default function ForgotPassword({ onBackToLogin }) {
     setMessage('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/forgot-password', {
+      const response = await fetch(`${API_BASE_URL}/api/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +34,7 @@ export default function ForgotPassword({ onBackToLogin }) {
       }
     } catch (error) {
       setIsSuccess(false);
-      setMessage('Gagal terhubung ke server backend. Pastikan server Laravel aktif.');
+      setMessage('Gagal terhubung ke server backend. Pastikan server Laravel & Cloudflare Tunnel aktif.');
     } finally {
       setLoading(false);
     }

@@ -7,8 +7,8 @@ export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateFo
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // URL Backend Cloudflare Tunnel Anda
-  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+  // URL Backend Cloudflare Tunnel Aktif
+  const API_BASE_URL = 'https://observer-aurora-powerseller-concerns.trycloudflare.com';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +54,7 @@ export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateFo
         };
 
         localStorage.setItem('user', JSON.stringify(userData));
-        
+
         if (onLoginSuccess) {
           onLoginSuccess(userData);
         }
@@ -65,7 +65,7 @@ export default function Login({ onLoginSuccess, onNavigateRegister, onNavigateFo
 
     } catch (error) {
       console.warn('Gagal terhubung ke API backend:', error);
-      setErrorMsg('Tidak dapat terhubung ke server backend Cloudflare. Pastikan server Laravel aktif.');
+      setErrorMsg('Tidak dapat terhubung ke server backend Cloudflare. Pastikan server Laravel & Tunnel aktif.');
     } finally {
       setLoading(false);
     }

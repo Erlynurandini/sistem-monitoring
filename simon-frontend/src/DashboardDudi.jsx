@@ -35,7 +35,7 @@ export default function DashboardDudi({ user, onLogout }) {
   });
 
   // URL Backend Cloudflare Tunnel Anda
-  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+  const API_BASE_URL = 'https://observer-aurora-powerseller-concerns.trycloudflare.com';
 
   useEffect(() => {
     fetchSiswaBinaan();

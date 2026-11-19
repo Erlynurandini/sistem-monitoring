@@ -53,8 +53,8 @@ export default function StudentDashboard({ user, onLogout }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  // URL Backend Cloudflare Tunnel Anda
-  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+  // URL Backend Cloudflare Tunnel Aktif
+  const API_BASE_URL = 'https://observer-aurora-powerseller-concerns.trycloudflare.com';
 
   // Tarik data terbaru dari database saat komponen dimuat
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function StudentDashboard({ user, onLogout }) {
   const kelasSiswa = currentUser?.kelas || '-';
   const tempatPkl = currentUser?.company || currentUser?.tempat_pkl || 'Belum Ada Perusahaan';
   const emailSiswa = currentUser?.email || '-';
-  const guruPembimbing = currentUser?.guru_pembimbing || '-'; 
+  const guruPembimbing = currentUser?.guru_pembimbing || '-';
   const pembimbingDudi = currentUser?.pembimbing_dudi || '-';
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function StudentDashboard({ user, onLogout }) {
       });
       if (response.data.success) {
         setJurnalList(response.data.data);
-        
+
         const today = new Date().toISOString().split('T')[0];
         const alreadyToday = response.data.data.some(j => j.tanggal === today);
         if (alreadyToday) {
@@ -149,7 +149,7 @@ export default function StudentDashboard({ user, onLogout }) {
       canvas.width = video.videoWidth || 640;
       canvas.height = video.videoHeight || 480;
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
+
       const imageDataUrl = canvas.toDataURL('image/jpeg');
       setFotoKehadiran(imageDataUrl);
 
@@ -585,7 +585,7 @@ export default function StudentDashboard({ user, onLogout }) {
                   <h4 className="text-xs font-bold tracking-wider uppercase text-slate-400">Nilai & Evaluasi PKL</h4>
                   <span className="text-[10px] text-cyan-400 font-semibold">DUDI & Guru Pembimbing</span>
                 </div>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-[#0b0f17] border border-slate-800 rounded-xl p-4 text-center space-y-1">
                     <p className="text-[11px] text-slate-400">Kedisiplinan (DUDI)</p>
@@ -659,11 +659,11 @@ export default function StudentDashboard({ user, onLogout }) {
                       <label className="block text-xs font-semibold text-slate-400">
                         Bukti Foto Pengerjaan <span className="text-rose-500">*Wajib Diisi</span>
                       </label>
-                      <input 
-                        type="file" 
-                        accept="image/*" 
-                        onChange={e => handleFileJurnal(e, false)} 
-                        className="w-full bg-[#0b0f17] border border-slate-800 rounded-xl p-3 text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer" 
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={e => handleFileJurnal(e, false)}
+                        className="w-full bg-[#0b0f17] border border-slate-800 rounded-xl p-3 text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer"
                       />
                     </div>
                     <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-blue-600/30 flex items-center space-x-2">
@@ -888,14 +888,14 @@ export default function StudentDashboard({ user, onLogout }) {
               </button>
             </div>
             <div className="text-center">
-              <img 
+              <img
                 src={
-                  selectedFotoJurnal.startsWith('data:') || selectedFotoJurnal.startsWith('http') 
-                    ? selectedFotoJurnal 
+                  selectedFotoJurnal.startsWith('data:') || selectedFotoJurnal.startsWith('http')
+                    ? selectedFotoJurnal
                     : `${API_BASE_URL}/${selectedFotoJurnal}`
-                } 
-                alt="Bukti Jurnal" 
-                className="w-full h-64 object-cover rounded-xl border border-slate-700 shadow-md" 
+                }
+                alt="Bukti Jurnal"
+                className="w-full h-64 object-cover rounded-xl border border-slate-700 shadow-md"
               />
             </div>
           </div>

@@ -11,8 +11,8 @@ export default function Register({ onBackToLogin }) {
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // URL Backend Cloudflare Tunnel Anda
-  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+  // URL Backend Cloudflare Tunnel Aktif
+  const API_BASE_URL = 'https://observer-aurora-powerseller-concerns.trycloudflare.com';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

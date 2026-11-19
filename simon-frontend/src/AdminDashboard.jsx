@@ -17,6 +17,8 @@ import {
   Plus
 } from 'lucide-react';
 
+const API_BASE_URL = 'https://observer-aurora-powerseller-concerns.trycloudflare.com';
+
 export default function AdminDashboard({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState('ringkasan');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -52,7 +54,7 @@ export default function AdminDashboard({ user, onLogout }) {
 
   const fetchSiswa = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/siswa');
+      const response = await axios.get(`${API_BASE_URL}/api/siswa`);
       if (response.data.success) {
         setSiswaList(response.data.data);
       } else if (Array.isArray(response.data)) {
@@ -65,7 +67,7 @@ export default function AdminDashboard({ user, onLogout }) {
 
   const fetchGuru = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/guru');
+      const response = await axios.get(`${API_BASE_URL}/api/guru`);
       if (response.data.success) {
         setGuruList(response.data.data);
       } else if (Array.isArray(response.data)) {
@@ -78,7 +80,7 @@ export default function AdminDashboard({ user, onLogout }) {
 
   const fetchDudi = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/dudi');
+      const response = await axios.get(`${API_BASE_URL}/api/dudi`);
       if (response.data.success) {
         setDudiList(response.data.data);
       } else if (Array.isArray(response.data)) {
@@ -91,7 +93,7 @@ export default function AdminDashboard({ user, onLogout }) {
 
   const fetchJadwal = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/jadwal-monitoring');
+      const response = await axios.get(`${API_BASE_URL}/api/jadwal-monitoring`);
       if (response.data.success) {
         const formattedData = response.data.data.map(item => ({
           id: item.id,
@@ -120,7 +122,7 @@ export default function AdminDashboard({ user, onLogout }) {
       const ws = wb.Sheets[wb.SheetNames[0]];
       const data = XLSX.utils.sheet_to_json(ws);
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/siswa/import', { data });
+        const response = await axios.post(`${API_BASE_URL}/api/siswa/import`, { data });
         if (response.data.success) {
           alert('Data Siswa berhasil disimpan ke Database MySQL!');
           fetchSiswa();
@@ -136,7 +138,7 @@ export default function AdminDashboard({ user, onLogout }) {
   const handleDeleteSiswa = async (id) => {
     if (confirm('Yakin ingin menghapus data siswa ini?')) {
       try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/siswa/${id}`);
+        const response = await axios.delete(`${API_BASE_URL}/api/siswa/${id}`);
         if (response.data.success) {
           alert('Data siswa berhasil dihapus!');
           fetchSiswa();
@@ -158,7 +160,7 @@ export default function AdminDashboard({ user, onLogout }) {
       const ws = wb.Sheets[wb.SheetNames[0]];
       const data = XLSX.utils.sheet_to_json(ws);
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/guru/import', { data });
+        const response = await axios.post(`${API_BASE_URL}/api/guru/import`, { data });
         if (response.data.success) {
           alert('Data Guru Pembimbing berhasil disimpan ke Database MySQL!');
           fetchGuru();
@@ -174,7 +176,7 @@ export default function AdminDashboard({ user, onLogout }) {
   const handleDeleteGuru = async (id) => {
     if (confirm('Yakin ingin menghapus data guru ini?')) {
       try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/guru/${id}`);
+        const response = await axios.delete(`${API_BASE_URL}/api/guru/${id}`);
         if (response.data.success) {
           alert('Data guru berhasil dihapus!');
           fetchGuru();
@@ -196,7 +198,7 @@ export default function AdminDashboard({ user, onLogout }) {
       const ws = wb.Sheets[wb.SheetNames[0]];
       const data = XLSX.utils.sheet_to_json(ws);
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/dudi/import', { data });
+        const response = await axios.post(`${API_BASE_URL}/api/dudi/import`, { data });
         if (response.data.success) {
           alert('Data Mitra DUDI berhasil disimpan ke Database MySQL!');
           fetchDudi();
@@ -212,7 +214,7 @@ export default function AdminDashboard({ user, onLogout }) {
   const handleDeleteDudi = async (id) => {
     if (confirm('Yakin ingin menghapus data DUDI ini?')) {
       try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/dudi/${id}`);
+        const response = await axios.delete(`${API_BASE_URL}/api/dudi/${id}`);
         if (response.data.success) {
           alert('Data DUDI berhasil dihapus!');
           fetchDudi();
@@ -242,7 +244,7 @@ export default function AdminDashboard({ user, onLogout }) {
         keterangan: formDataJadwal.keterangan
       };
 
-      const response = await axios.post('http://127.0.0.1:8000/api/jadwal-monitoring', payload);
+      const response = await axios.post(`${API_BASE_URL}/api/jadwal-monitoring`, payload);
       if (response.data.success) {
         alert('Jadwal monitoring berhasil disimpan ke Database!');
         setFormDataJadwal({ guru: '', dudi: '', siswa: '', tanggal: '', jam: '', keterangan: '' });
@@ -257,7 +259,7 @@ export default function AdminDashboard({ user, onLogout }) {
   const handleHapusJadwal = async (id) => {
     if (confirm('Yakin ingin menghapus jadwal ini?')) {
       try {
-        await axios.delete(`http://127.0.0.1:8000/api/jadwal-monitoring/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/jadwal-monitoring/${id}`);
         alert('Jadwal berhasil dihapus!');
         fetchJadwal();
       } catch (error) {
@@ -670,7 +672,7 @@ export default function AdminDashboard({ user, onLogout }) {
                             <td className="px-4 py-3">{item.tanggal} {item.jam && `(${item.jam})`}</td>
                             <td className="px-4 py-3">{item.keterangan || '-'}</td>
                             <td className="px-4 py-3">
-                              <button onClick={() => handleHapusJadwal(item.id)} className="bg-rose-500/10 text-rose-400 hover:bg-rose-500/text-white px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all">
+                              <button onClick={() => handleHapusJadwal(item.id)} className="bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all">
                                 Hapus
                               </button>
                             </td>

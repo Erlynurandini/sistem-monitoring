@@ -7,8 +7,8 @@ export default function StudentLogin({ onLoginSuccess }) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // URL Backend Cloudflare Tunnel Anda
-  const API_BASE_URL = 'https://fly-incidence-cure-cnet.trycloudflare.com';
+  // URL Backend Cloudflare Tunnel Aktif
+  const API_BASE_URL = 'https://observer-aurora-powerseller-concerns.trycloudflare.com';
 
   const handleLogin = async (e) => {
     e.preventDefault();
